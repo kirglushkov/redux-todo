@@ -2,6 +2,7 @@ import "./App.css";
 import AddItem from "./components/addItem";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
+import Todos from "./components/todos";
 
 interface IRootState {
   addTask: {
@@ -30,23 +31,27 @@ const Header = styled.header`
   margin-bottom: 30px;
 `;
 
+const Item = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-direction: column;
+`;
+
 function App() {
   const Value = useSelector((state: IRootState) => state.addTask);
-  console.log(Value.todos);
   const Array: Todo[] = Value.todos;
-  const Todos = Array.map((item) => {
-    return (
-      <div>
-        <span>{item.id + 1}. </span>
-        <span>{item.text}</span>
-      </div>
-    );
-  });
   return (
     <Root>
       <Header>Simple Redux TODO list</Header>
       <AddItem></AddItem>
-      {Todos}
+      {Array.map((item) => {
+        return (
+          <Item>
+            <Todos id={item.id} text={item.text} />
+          </Item>
+        );
+      })}
     </Root>
   );
 }

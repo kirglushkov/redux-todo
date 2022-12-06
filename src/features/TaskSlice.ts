@@ -16,8 +16,8 @@ function nextTodoId(todos: Todo[]) {
   return maxId + 1;
 }
 
-export const addTaskSlice = createSlice({
-  name: "addTask",
+export const TaskSlice = createSlice({
+  name: "Task",
   initialState: initialState,
   reducers: {
     addTask: (state, action) => {
@@ -33,10 +33,26 @@ export const addTaskSlice = createSlice({
         ],
       };
     },
+    deleteTask: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
+    },
+    editTask: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id
+            ? { ...todo, text: action.payload.text }
+            : todo
+        ),
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addTask } = addTaskSlice.actions;
+export const { addTask, deleteTask, editTask } = TaskSlice.actions;
 
-export default addTaskSlice.reducer;
+export default TaskSlice.reducer;

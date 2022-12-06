@@ -2,7 +2,7 @@ import CustomButton from "./customButton";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addTask } from "../features/addTaskSlice";
+import { addTask } from "../features/TaskSlice";
 
 const Root = styled.div`
   display: flex;
