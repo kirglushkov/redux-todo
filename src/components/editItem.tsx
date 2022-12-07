@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { editTask } from "../features/TaskSlice";
+import { StyledInput } from "./addItem";
+import { StyledButton } from "./displayItem";
 
 type Props = {};
 
@@ -9,6 +11,7 @@ const Item = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  flex: 0;
 `;
 
 const editItem = ({
@@ -22,7 +25,7 @@ const editItem = ({
   const [inputValue, setInputValue] = useState("");
   return (
     <Item>
-      <input
+      <StyledInput
         type="text"
         value={inputValue}
         onChange={(e) => {
@@ -38,15 +41,15 @@ const editItem = ({
             }
           }
         }}
-      ></input>
-      <button
+      ></StyledInput>
+      <StyledButton
         onClick={() => {
           dispatch(editTask({ id: id, text: inputValue }));
           useSetEdit(false);
         }}
       >
         изменить
-      </button>
+      </StyledButton>
     </Item>
   );
 };

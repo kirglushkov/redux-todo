@@ -31,7 +31,7 @@ const Header = styled.header`
   margin-bottom: 30px;
 `;
 
-const Item = styled.div`
+const Column = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -45,13 +45,11 @@ function App() {
     <Root>
       <Header>Simple Redux TODO list</Header>
       <AddItem></AddItem>
-      {Array.map((item) => {
-        return (
-          <Item>
-            <Todos id={item.id} text={item.text} />
-          </Item>
-        );
-      })}
+      <Column>
+        {Array.map((item) => {
+          return <Todos id={item.id} text={item.text} />;
+        })}
+      </Column>
     </Root>
   );
 }

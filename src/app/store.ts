@@ -6,5 +6,7 @@ export default configureStore({
     addTask: TaskSlice,
     deleteTask: TaskSlice,
     editTask: TaskSlice,
+    completeTask: TaskSlice,
+    changeColor: TaskSlice,
   },
 });

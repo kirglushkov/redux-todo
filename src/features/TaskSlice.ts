@@ -49,10 +49,32 @@ export const TaskSlice = createSlice({
         ),
       };
     },
+    completeTask: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ),
+      };
+    },
+
+    changeColor: (state, action) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload
+            ? { ...todo, color: action.payload.color }
+            : todo
+        ),
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addTask, deleteTask, editTask } = TaskSlice.actions;
+export const { addTask, deleteTask, editTask, completeTask, changeColor } =
+  TaskSlice.actions;
 
 export default TaskSlice.reducer;

@@ -16,19 +16,28 @@ const Root = styled.div`
   margin-bottom: 10px;
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   display: flex;
   flex: 1;
   width: 100%;
-
+  height: auto;
   border: none;
   border-radius: 10px;
   outline: none;
   color: black;
   background-color: white;
   font-family: monospace;
-  font-size: 20px;
   padding: 5px;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  ${(props: { add?: boolean }) =>
+    props.add &&
+    `
+    font-size: 20px;
+    `}
 `;
 
 function AddItem() {
@@ -37,6 +46,7 @@ function AddItem() {
   return (
     <Root>
       <StyledInput
+        add
         type="text"
         value={inputValue}
         onChange={(e) => {
