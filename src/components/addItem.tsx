@@ -58,6 +58,7 @@ function AddItem() {
           if (e.key === "Enter") {
             if (inputValue != null && inputValue != "") {
               dispatch(addTask(inputValue));
+              setInputValue("");
             }
           }
         }}
@@ -67,6 +68,7 @@ function AddItem() {
         onclick={() => {
           if (inputValue != null && inputValue != "") {
             dispatch(addTask(inputValue));
+            setInputValue("");
           }
         }}
       >
