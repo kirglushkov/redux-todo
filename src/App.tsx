@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import Todos from "./components/todos";
 
-interface IRootState {
+export interface IRootState {
   addTask: {
     todos: Todo[];
   };

@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { MutableRefObject, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../App";
 import { editTask } from "../features/TaskSlice";
 import { StyledInput } from "./addItem";
 import { StyledButton } from "./displayItem";
@@ -22,21 +23,22 @@ const editItem = ({
   useSetEdit: (x: boolean) => void;
 }) => {
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState("");
+  const { todos } = useSelector((state: IRootState) => state.addTask);
+  const text = todos.find((item) => item.id === id)?.text;
+  const inputValue = useRef() as MutableRefObject<HTMLInputElement>;
   return (
     <Item>
       <StyledInput
         type="text"
-        value={inputValue}
-        onChange={(e) => {
-          if (e.target.value.length < 50) {
-            setInputValue(e.target.value);
-          }
-        }}
+        ref={inputValue}
+        defaultValue={text}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            if (inputValue != null && inputValue != "") {
-              dispatch(editTask({ id: id, text: inputValue }));
+            if (
+              inputValue.current.value != null &&
+              inputValue.current.value != ""
+            ) {
+              dispatch(editTask({ id: id, text: inputValue.current.value }));
               useSetEdit(false);
             }
           }
@@ -44,7 +46,7 @@ const editItem = ({
       ></StyledInput>
       <StyledButton
         onClick={() => {
-          dispatch(editTask({ id: id, text: inputValue }));
+          dispatch(editTask({ id: id, text: inputValue.current.value }));
           useSetEdit(false);
         }}
       >

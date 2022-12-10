@@ -1,7 +1,7 @@
 import CustomButton from "./customButton";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { addTask } from "../features/TaskSlice";
 
 const Root = styled.div`
@@ -40,25 +40,28 @@ export const StyledInput = styled.input`
     `}
 `;
 
+type InputProps = {
+  current: {
+    value: string;
+  };
+};
+
 function AddItem() {
-  const [inputValue, setInputValue] = useState("");
+  const inputValue = useRef() as MutableRefObject<HTMLInputElement>;
   const dispatch = useDispatch();
   return (
     <Root>
       <StyledInput
         add
         type="text"
-        value={inputValue}
-        onChange={(e) => {
-          if (e.target.value.length < 50) {
-            setInputValue(e.target.value);
-          }
-        }}
+        ref={inputValue}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            if (inputValue != null && inputValue != "") {
-              dispatch(addTask(inputValue));
-              setInputValue("");
+            if (
+              inputValue.current.value != null &&
+              inputValue.current.value != ""
+            ) {
+              dispatch(addTask(inputValue.current.value));
             }
           }
         }}
@@ -66,9 +69,12 @@ function AddItem() {
       <CustomButton
         width={35}
         onclick={() => {
-          if (inputValue != null && inputValue != "") {
-            dispatch(addTask(inputValue));
-            setInputValue("");
+          if (
+            inputValue.current.value != null &&
+            inputValue.current.value != ""
+          ) {
+            dispatch(addTask(inputValue.current.value));
+            inputValue.current.value = "";
           }
         }}
       >
