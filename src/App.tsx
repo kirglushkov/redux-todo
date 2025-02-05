@@ -1,12 +1,16 @@
 import "./App.css";
 import AddItem from "./components/addItem";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Todos from "./components/todos";
+import { useState, useEffect } from "react";
+import { fetchTodos } from "./features/TaskSlice";
 
 export interface IRootState {
   addTask: {
     todos: Todo[];
+    status: string;
+    error: any;
   };
 }
 
@@ -14,7 +18,6 @@ export type Todo = {
   id: number;
   text: string;
   completed: boolean;
-  color?: string;
 };
 const Root = styled.div`
   display: flex;
@@ -39,15 +42,33 @@ const Column = styled.div`
 `;
 
 function App() {
+  const dispatch = useDispatch();
   const Value = useSelector((state: IRootState) => state.addTask);
   const Array: Todo[] = Value.todos;
+
+  console.log(Array)
+
+  useEffect(() => {
+    if (Value.status === 'idle') {
+      dispatch(fetchTodos());
+    }
+  }, [Value.status, dispatch]);
+
+  if (Value.status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (Value.status === 'failed') {
+    return <div>Error: {Value.error}</div>;
+  }
+
   return (
     <Root>
-      <Header>Simple Redux TODO list</Header>
+      <Header>TODO list</Header>
       <AddItem></AddItem>
       <Column>
         {Array.map((item) => {
-          return <Todos id={item.id} text={item.text} />;
+          return <Todos id={item.id} text={item.text} completed={item.completed} />;
         })}
       </Column>
     </Root>

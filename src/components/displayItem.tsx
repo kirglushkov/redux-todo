@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../features/TaskSlice";
+import { deleteTodo, updateTodo } from "../features/TaskSlice";
 
 type Props = {};
 
@@ -42,31 +42,34 @@ export const StyledButton = styled.button`
 const displayItem = ({
   id,
   text,
-  useSetEdit,
+  completed
 }: {
   id: number;
   text: string;
-  useSetEdit: (x: boolean) => void;
+  completed: boolean
 }) => {
   const dispatch = useDispatch();
   return (
     <Item>
       <span>{id + 1}.</span>
-      <span>{text}</span>
-      <StyledButton
+      <span style={{ textDecoration: completed ? 'line-through' : 'none' }}>
+        {text}
+      </span>
+      {!completed &&       <StyledButton
         onClick={() => {
-          useSetEdit(true);
+          dispatch(updateTodo({ id: id, completed: true }));
         }}
       >
-        изменить
-      </StyledButton>
+        complete
+      </StyledButton>}
+
       <StyledButton
         red
         onClick={() => {
-          dispatch(deleteTask(id));
+          dispatch(deleteTodo(id));
         }}
       >
-        удалить
+        delete
       </StyledButton>
     </Item>
   );

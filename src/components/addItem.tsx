@@ -2,7 +2,7 @@ import CustomButton from "./customButton";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 import { MutableRefObject, useRef, useState } from "react";
-import { addTask } from "../features/TaskSlice";
+import { addTodo } from "../features/TaskSlice";
 
 const Root = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ function AddItem() {
               inputValue.current.value != null &&
               inputValue.current.value != ""
             ) {
-              dispatch(addTask(inputValue.current.value));
+              dispatch(addTodo(inputValue.current.value));
             }
           }
         }}
@@ -73,7 +73,7 @@ function AddItem() {
             inputValue.current.value != null &&
             inputValue.current.value != ""
           ) {
-            dispatch(addTask(inputValue.current.value));
+            dispatch(addTodo(inputValue.current.value));
             inputValue.current.value = "";
           }
         }}
